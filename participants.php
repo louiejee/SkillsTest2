@@ -25,15 +25,23 @@ if (isset($_POST['update_participant'])) {
 }
 
 // Delete Participant
+// Delete participant
 if (isset($_GET['delete_participant'])) {
     $id = $_GET['delete_participant'];
-    // Delete participant's registrations first
-    $conn->query("DELETE FROM registration WHERE partID='$id'");
-    // Then delete the participant
+    $conn->query("DELETE FROM registration WHERE partID='$id'"); // optional, delete related registrations
     $conn->query("DELETE FROM participants WHERE partID='$id'");
+
+    // Reset AUTO_INCREMENT if table is empty
+    $result = $conn->query("SELECT COUNT(*) as cnt FROM participants");
+    $row = $result->fetch_assoc();
+    if ($row['cnt'] == 0) {
+        $conn->query("ALTER TABLE participants AUTO_INCREMENT = 1");
+    }
+
     header("Location: participants.php");
     exit;
 }
+
 
 
 // Search Participant
