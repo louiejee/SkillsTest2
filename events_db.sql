@@ -1,5 +1,4 @@
-CREATE DATABASE events_db;
-USE events_db;
+-- Database: events_db
 
 -- Events Table
 CREATE TABLE events (
