@@ -27,10 +27,14 @@ if (isset($_POST['update_participant'])) {
 // Delete Participant
 if (isset($_GET['delete_participant'])) {
     $id = $_GET['delete_participant'];
+    // Delete participant's registrations first
+    $conn->query("DELETE FROM registration WHERE partID='$id'");
+    // Then delete the participant
     $conn->query("DELETE FROM participants WHERE partID='$id'");
     header("Location: participants.php");
     exit;
 }
+
 
 // Search Participant
 $search_result = null;
